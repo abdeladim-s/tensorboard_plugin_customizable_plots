@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "tensorboard-plugin-customizable-plots"
+version = "0.1.0"
+description = "A plugin for TensorBoard to customize and export Scalar plots"
+authors = ["abdeladim-s <sadiki.abdeladim@gmail.com>"]
+license = "Apache License 2.0"
+readme = "README.md"
+packages = [
+    { include = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[project.urls]
+"Homepage" = "https://github.com/abdeladim-s/tensorboard_plugin_customizable_plots"
+"Bug Tracker" = "https://github.com/abdeladim-s/tensorboard_plugin_customizable_plots/issues"
