@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 .idea
-./src/customizable_plots/static/node_modules
+/src/customizable_plots/static/node_modules
