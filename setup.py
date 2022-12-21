@@ -22,7 +22,7 @@ import setuptools
 # See https://packaging.python.org/specifications/entry-points/
 setuptools.setup(
     name="tensorboard_plugin_customizable_plots",
-    version="0.1.0",
+    version="0.1.6",
     description="A plugin for TensorBoard to customize and export Scalar plots",
     # packages=["tensorboard_plugin_customizable_plots"],
     package_data={
@@ -30,7 +30,8 @@ setuptools.setup(
     },
     entry_points={
         "tensorboard_plugins": [
-            "tensorboard_plugin_customizable_plots = src.customizable_plots.plugin:CustomizablePlots",
+            "tensorboard_plugin_customizable_plots = tensorboard_plugin_customizable_plots.plugin"
+            ":CustomizablePlots",
         ],
     },
 )

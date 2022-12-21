@@ -11,7 +11,7 @@
  * like `valType` and `values` are only set for documentation purposes
  * at the moment.
  *
- * /src/plots/attributes.js
+ * /tensorboard_plugin_customizable_plots/plots/attributes.js
  *
  */
 

@@ -143,7 +143,7 @@ const modifyObject = (obj, chain, value, i=0) => {
  * Constants
  */
 const PARENT_DELIMITER = '$/';
-const github_url = '';
+const github_url = "https://github.com/abdeladim-s/tensorboard_plugin_customizable_plots";
 
 const defaultRunsDrawerWidth = 280;
 const minRunsDrawerWidth = 200;
@@ -745,7 +745,7 @@ const Footer = () => {
                 <Typography variant="body2" color="text.secondary" align="center">
                         Feedback/issues ? <br/> Check the plugin's repository on
                         <IconButton edge={'end'} onClick={() => {
-                            window.open("https://github.com/abdeladim-s/tensorboard_plugin_customizable_plots", "_blank");
+                            window.open(github_url, "_blank");
                         }} >
                             <GithubIcon/>
                         </IconButton>
@@ -1209,26 +1209,8 @@ function Dashboard({isLoading, setIsLoading, manualLoading, setManualLoading, ge
                             inputProps={{ 'aria-label': 'filter tags' }}
                             // onChange={handleFilterChange}
                             onKeyDown={handleKeyDown}
-                            // disablePortal
-                            // id="combo-box-demo"
-                            // options={tags}
-                            // // sx={{ width: 300 }}
-                            // renderInput={(params) => <TextField {...params} label="Filter Tags" />}
-                            // // filterOptions={(options) =>
-                            // //     options.filter(({ place_name }) => place_name.includes(query))
-                            // // }
-                            // filterOptions={handleFilter}
-                            // renderOption={(props, option) => {
-                            //     console.log(option);
-                            // }}
                         >
-                            {/*<Autocomplete*/}
-                            {/*    disablePortal*/}
-                            {/*    id="combo-box-demo"*/}
-                            {/*    options={tags}*/}
-                            {/*    sx={{ width: 300 }}*/}
-                            {/*    renderInput={(params) => <TextField {...params} label="Movie" />}*/}
-                            {/*/>*/}
+
                         </StyledInputBase>
 
                     </Search>

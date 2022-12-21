@@ -1317,7 +1317,7 @@
 
   // ATTENTION
   // When adding new symbols to this file,
-  // Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
+  // Please consider also adding to 'react-devtools-shared/tensorboard_plugin_customizable_plots/backend/ReactSymbols'
   // The Symbol used to tag the ReactElement-like types.
   var REACT_ELEMENT_TYPE = Symbol.for('react.element');
   var REACT_PORTAL_TYPE = Symbol.for('react.portal');
@@ -3643,7 +3643,7 @@
 
   // ATTENTION
   // When adding new symbols to this file,
-  // Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
+  // Please consider also adding to 'react-devtools-shared/tensorboard_plugin_customizable_plots/backend/ReactSymbols'
   // The Symbol used to tag the ReactElement-like types.
   var REACT_ELEMENT_TYPE = Symbol.for('react.element');
   var REACT_PORTAL_TYPE = Symbol.for('react.portal');
@@ -23025,12 +23025,12 @@ See https://mui.com/r/migration-v4/#mui-material-styles for more details.` );
     // |     To update them edit the d.ts file and run "yarn proptypes"     |
     // ----------------------------------------------------------------------
     /**
-     * Used in combination with `src` or `srcSet` to
+     * Used in combination with `tensorboard_plugin_customizable_plots` or `srcSet` to
      * provide an alt attribute for the rendered `img` element.
      */
     alt: PropTypes.string,
     /**
-     * Used to render icon or text elements inside the Avatar if `src` is not set.
+     * Used to render icon or text elements inside the Avatar if `tensorboard_plugin_customizable_plots` is not set.
      * This can be an element, or just a string.
      */
     children: PropTypes.node,
@@ -23057,7 +23057,7 @@ See https://mui.com/r/migration-v4/#mui-material-styles for more details.` );
      */
     sizes: PropTypes.string,
     /**
-     * The `src` attribute for the `img` element.
+     * The `tensorboard_plugin_customizable_plots` attribute for the `img` element.
      */
     src: PropTypes.string,
     /**
@@ -25845,7 +25845,7 @@ See https://mui.com/r/migration-v4/#mui-material-styles for more details.` );
      */
     children: chainPropTypes(PropTypes.node, props => {
       if (!props.children && !props.image && !props.src && !props.component) {
-        return new Error('MUI: Either `children`, `image`, `src` or `component` prop must be specified.');
+        return new Error('MUI: Either `children`, `image`, `tensorboard_plugin_customizable_plots` or `component` prop must be specified.');
       }
       return null;
     }),
@@ -25864,7 +25864,7 @@ See https://mui.com/r/migration-v4/#mui-material-styles for more details.` );
     component: PropTypes.elementType,
     /**
      * Image to be displayed as a background image.
-     * Either `image` or `src` prop must be specified.
+     * Either `image` or `tensorboard_plugin_customizable_plots` prop must be specified.
      * Note that caller must specify height otherwise the image will not be visible.
      */
     image: PropTypes.string,
