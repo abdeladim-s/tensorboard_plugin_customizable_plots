@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "transpile": "./node_modules/@babel/cli/bin/babel.js --plugins transform-react-jsx dashboard.js --out-dir ./dest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/plugin-transform-spread": "^7.19.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0"
+  }
+}

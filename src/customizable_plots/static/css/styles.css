@@ -1,0 +1,12 @@
+.js-plotly-plot .plotly, .js-plotly-plot .plotly div {
+    display: flex!important;
+    justify-content: center!important;
+}
+
+.js-plotly-plot {
+    display: block!important;
+}
+
+.css-o4b71y-MuiAccordionSummary-content {
+    margin: 0px!important;
+}
