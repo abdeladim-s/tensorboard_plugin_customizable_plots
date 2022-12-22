@@ -1,5 +1,3 @@
-# Copyright 2020 The TensorFlow Authors. All Rights Reserved.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -12,7 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Tests for the example plugin."""
+
 
 import ntpath
 import posixpath
@@ -23,13 +21,13 @@ from werkzeug import test
 from werkzeug import wrappers
 
 from tensorboard.plugins import base_plugin
-from tensorboard_plugin_example_raw_scalars import plugin
+from tensorboard_plugin_customizable_plots import plugin
 
 
 def is_path_safe(path):
     """Returns the result depending on the plugin's static file handler."""
-    example_plugin = plugin.ExampleRawScalarsPlugin(base_plugin.TBContext())
-    serve_static_file = example_plugin._serve_static_file
+    cp_plugin = plugin.CustomizablePlots(base_plugin.TBContext())
+    serve_static_file = cp_plugin._serve_static_file
 
     client = test.Client(serve_static_file, wrappers.Response)
     response = client.get(plugin._PLUGIN_DIRECTORY_PATH_PART + path)

@@ -1,5 +1,3 @@
-# Copyright 2019 The TensorFlow Authors. All Rights Reserved.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -16,15 +14,20 @@
 
 import setuptools
 
-# Specifying setup.py makes a plugin installable via a Python package manager.
-# `entry_points` is an important field makes plugins discoverable by TensorBoard
-# at runtime.
 # See https://packaging.python.org/specifications/entry-points/
+
+# read the contents of your README file
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
 setuptools.setup(
     name="tensorboard_plugin_customizable_plots",
     version="0.1.6",
     description="A plugin for TensorBoard to customize and export Scalar plots",
     # packages=["tensorboard_plugin_customizable_plots"],
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     package_data={
         "tensorboard_plugin_customizable_plots": ["static/**"],
     },
