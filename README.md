@@ -1,7 +1,7 @@
 # Customizable Plots - Tensorboard Plugin
 
 This plugin is a simple Tensorboard dashboard to visualize, customize 
-and export ready-to-use scalar plots.
+and export ready-to-use scalar plots for publication.
 
 _Based on [plotly.js](https://github.com/plotly/plotly.js/),
 [react](https://github.com/facebook/react) and [material-ui](https://github.com/mui/material-ui)._
