@@ -67,6 +67,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 const getValue = (obj, chain, i = 0) => {
+  if (obj === {} || obj === undefined) return;
   if (i == chain.length - 1) {
     return obj[chain[i]];
   } else {
@@ -131,7 +132,7 @@ const modifyObject = (obj, chain, value, i = 0) => {
  * Constants
  */
 const PARENT_DELIMITER = '$/';
-const github_url = '';
+const github_url = "https://github.com/abdeladim-s/tensorboard_plugin_customizable_plots";
 const defaultRunsDrawerWidth = 280;
 const minRunsDrawerWidth = 200;
 const maxRunsDrawerWidth = 400;
@@ -309,15 +310,8 @@ const StyledInputBase = styled(TextField)(({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%'
-    // [theme.breakpoints.up('sm')]: {
-    //     width: '12ch',
-    //     '&:focus': {
-    //         width: '20ch',
-    //     },
-    // },
   }
 }));
-
 const StyledAccordionSummary = styled(props => React.createElement(AccordionSummary
 // expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }}
 // />}
@@ -325,15 +319,6 @@ const StyledAccordionSummary = styled(props => React.createElement(AccordionSumm
   theme
 }) => ({
   backgroundColor: 'rgba(255, 152, 0, 0.2)',
-  // 'rgba(255, 152, 0, 0.2)'
-  // backgroundColor: alpha(theme.palette.primary, 0.15),
-  // theme.palette.mode === 'dark'
-  //     ? 'rgba(255, 255, 255, .05)'
-  //     : 'rgba(0, 0, 0, .03)',
-  // flexDirection: 'row-reverse',
-  // '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-  //     transform: 'rotate(90deg)',
-  // },
   '& .MuiAccordionSummary-content': {
     marginLeft: theme.spacing(1)
   }
@@ -822,7 +807,7 @@ const Footer = () => {
   }, "Feedback/issues ? ", React.createElement("br", null), " Check the plugin's repository on", React.createElement(IconButton, {
     edge: 'end',
     onClick: () => {
-      window.open("https://github.com/abdeladim-s/tensorboard_plugin_customizable_plots", "_blank");
+      window.open(github_url, "_blank");
     }
   }, React.createElement(GithubIcon, null)))));
 };
@@ -1343,18 +1328,6 @@ function Dashboard({
     // onChange={handleFilterChange}
     ,
     onKeyDown: handleKeyDown
-    // disablePortal
-    // id="combo-box-demo"
-    // options={tags}
-    // // sx={{ width: 300 }}
-    // renderInput={(params) => <TextField {...params} label="Filter Tags" />}
-    // // filterOptions={(options) =>
-    // //     options.filter(({ place_name }) => place_name.includes(query))
-    // // }
-    // filterOptions={handleFilter}
-    // renderOption={(props, option) => {
-    //     console.log(option);
-    // }}
   })), React.createElement(IconButton, {
     color: "inherit",
     "aria-label": "open drawer",

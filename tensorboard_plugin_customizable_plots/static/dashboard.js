@@ -74,7 +74,7 @@ function useInterval(callback, delay) {
 }
 
 const getValue = (obj, chain, i=0) => {
-
+    if(obj === {} || obj === undefined) return
     if(i == chain.length - 1){
         return obj[chain[i]];
     }
@@ -308,12 +308,6 @@ const StyledInputBase = styled(TextField)(({ theme }) => ({
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
-        // [theme.breakpoints.up('sm')]: {
-        //     width: '12ch',
-        //     '&:focus': {
-        //         width: '20ch',
-        //     },
-        // },
     },
 }));
 
@@ -325,15 +319,6 @@ const StyledAccordionSummary = styled((props) => (
     />
 ))(({ theme }) => ({
     backgroundColor: 'rgba(255, 152, 0, 0.2)',
-    // 'rgba(255, 152, 0, 0.2)'
-    // backgroundColor: alpha(theme.palette.primary, 0.15),
-        // theme.palette.mode === 'dark'
-        //     ? 'rgba(255, 255, 255, .05)'
-        //     : 'rgba(0, 0, 0, .03)',
-    // flexDirection: 'row-reverse',
-    // '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    //     transform: 'rotate(90deg)',
-    // },
     '& .MuiAccordionSummary-content': {
         marginLeft: theme.spacing(1),
     },
