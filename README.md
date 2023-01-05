@@ -6,6 +6,8 @@ and export ready-to-use scalar plots for publication.
 _Built with [plotly.js](https://github.com/plotly/plotly.js/),
 [react](https://github.com/facebook/react) and [material-ui](https://github.com/mui/material-ui)._
 
+[![Downloads](https://static.pepy.tech/badge/tensorboard-plugin-customizable-plots)](https://pepy.tech/project/tensorboard-plugin-customizable-plots)
+
 ![](demo.gif)
 ## Installation
 ```bash
