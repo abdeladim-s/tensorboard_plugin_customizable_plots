@@ -38,5 +38,5 @@ _So until the Tensorboard authors implement the above features,
 one might use the `TIME SERIES` 
 dashboard to track the progress of the plots (as it is more responsive)
 and use this plugin to customize and export them._ 
-## license
+## License
 The plugin is licensed under the Apache License, Version 2.0. See `LICENSE` for the full license text.
