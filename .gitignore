@@ -129,6 +129,8 @@ dmypy.json
 .pyre/
 
 .idea
+/tensorboard_plugin_customizable_plots/static/.idea
 /tensorboard_plugin_customizable_plots/static/node_modules
 /tensorboard_plugin_customizable_plots.egg-info
+/tensorboard_plugin_customizable_plots/tensorboard_plugin_customizable_plots.egg-info
 /docs

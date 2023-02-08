@@ -42,7 +42,6 @@ NAME = 'tensorboard_plugin_customizable_plots'
 _PLUGIN_DIRECTORY_PATH_PART = f"/data/plugin/{NAME}/"
 
 
-
 class CustomizablePlots(base_plugin.TBPlugin):
     """A plugin for TensorBoard to customize and export Scalar plots."""
 

@@ -38,6 +38,11 @@ async function getRuns() {
     return runs;
 }
 
+/***
+ *
+ * @param ha: horizontal axis (step or time)
+ * @returns {Promise<any|{}>}
+ */
 async function getData(ha) {
     const params = new URLSearchParams({ha});
     let data = (await fetchJSON(`../data?${params}`)) || {};
@@ -137,6 +142,15 @@ const modifyObject = (obj, chain, value, i=0) => {
     }
 }
 
+const isEmpty = (obj) => {
+    for(let prop in obj) {
+        if(Object.prototype.hasOwnProperty.call(obj, prop)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 /**========================================================================================================*/
 
 /**
@@ -194,7 +208,7 @@ const {
     Typography,
     createTheme,
     Box,
-    Accordion: StyledAccordion,
+    Accordion,
     AccordionSummary,
     AccordionDetails,
 } = MaterialUI;
@@ -309,6 +323,15 @@ const StyledInputBase = styled(TextField)(({ theme }) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
     },
+}));
+
+const StyledAccordion = styled((props) => (
+    <Accordion
+        TransitionProps={{ unmountOnExit: true }}
+        {...props}
+    />
+))(({ theme }) => ({
+
 }));
 
 const StyledAccordionSummary = styled((props) => (
@@ -446,7 +469,6 @@ const BooleanConfig = ({chain, value, description, config, setConfig}) => {
                 edge="end"
                 onChange={handleChange}
                 checked={checked}
-                // defaultChecked={value}
             />
 
 
@@ -462,15 +484,12 @@ const EnumeratedConfig = ({chain, name, value, values, description,config, setCo
         let newConfig = {...config}
         if (event.target.value === "true") {
             modifyObject(newConfig, chain, true)
-            // newConfig[name] = true;
         }
         if (event.target.value === "false") {
             modifyObject(newConfig, chain, true)
         }
-        // newConfig[name] = false;
         else {
             modifyObject(newConfig, chain,  event.target.value)
-            // newConfig[name] = event.target.value;
         }
         setConfig(newConfig);
         setVal(event.target.value);
@@ -487,7 +506,6 @@ const EnumeratedConfig = ({chain, name, value, values, description,config, setCo
                     labelId={`${name}`}
                     id={`select-${name}`}
                     value={val}
-                    // defaultValue={value? value: values[0]}
                     onChange={handleChange}
                     // autoWidth
                     label={chain[chain.length - 1]}
@@ -542,9 +560,6 @@ const NumberConfig = ({chain, value, min, max, description, config, setConfig}) 
 
 const StringConfig = ({chain, name, value, description, config, setConfig}) => {
 
-    // const [checked, setChecked] = React.useState(value)
-
-
     const handleKeyDown = (event) => {
         if(event.keyCode == 13){ // enter
             let newConfig = {...config}
@@ -561,7 +576,6 @@ const StringConfig = ({chain, name, value, description, config, setConfig}) => {
                         label={chain[chain.length - 1]}
                         fullWidth
                         defaultValue={value}
-                        // onChange={handleChange}
                         onKeyDown={handleKeyDown}
                     />
                 </Tooltip>
@@ -572,9 +586,6 @@ const StringConfig = ({chain, name, value, description, config, setConfig}) => {
 
 const CustomConfig = ({chain, name, value, description, config, setConfig}) => {
 
-    // const [checked, setChecked] = React.useState(value)
-
-
     const handleKeyDown = (event) => {
         if(event.keyCode == 13){ // enter
             try {
@@ -582,7 +593,6 @@ const CustomConfig = ({chain, name, value, description, config, setConfig}) => {
                 let json = JSON.parse(event.target.value);
                 modifyObject(newConfig, chain, json, 0)
                 newConfig = mergeDeep(config, json)
-                // modifyObject(newConfig, chain, event.target.value, 0)
                 setConfig(newConfig);
             } catch (error) {
                 alert(error);
@@ -602,7 +612,6 @@ const CustomConfig = ({chain, name, value, description, config, setConfig}) => {
                         defaultValue={JSON.stringify(value)}
                         multiline
                         maxRows={4}
-                        // onChange={handleChange}
                         onKeyDown={handleKeyDown}
                     />
                 </Tooltip>
@@ -614,20 +623,12 @@ const CustomConfig = ({chain, name, value, description, config, setConfig}) => {
 const ConfigComponent = ({attributeName, attributeValue, config, setConfig}) => {
 
     const chain = attributeName.split(PARENT_DELIMITER).filter(r => r !== '');
-    // const [val, setVal] = React.useState(attributeValue.dflt)
     let val = attributeValue.dflt
     if(!(config
         && Object.keys(config).length === 0
         && Object.getPrototypeOf(config) === Object.prototype)){
         val = getValue(config, chain);
     }
-    //
-    // // React.useEffect(()=>{
-    // //     let v = getValue(config, chain)
-    // //     if(v){
-    // //         setVal(v)
-    // //     }
-    // // }, [config])
 
     switch (attributeValue.valType) {
         case 'boolean':
@@ -676,10 +677,7 @@ const PlotConfigs = ({parent, attributes, plotConfig, setPlotConfig}) => {
                             </StyledAccordion>
                         );
                     }
-
-                    // ConfigComponent(configAttributes[key].valType, key, configAttributes[key].dflt, plotConfig, setPlotConfig)
                 })
-                // getConfigComponent(configAttributes['staticPlot'].valType, 'staticPlot', configAttributes['staticPlot'].dflt, plotConfig, setPlotConfig)
             }
         </List>
     );
@@ -741,7 +739,6 @@ const Footer = () => {
 }
 
 const Runs = ({setIsLoading, checked, setChecked, filterSearchInput, runsConfig, setRunsConfig, runs, deactivatedRuns, setDeactivatedRuns}) => {
-    // const [checked, setChecked] = React.useState({});
     const [expanded, setExpanded] = React.useState(false);
     const [clickedAccordion, setClickedAccordion] = React.useState('');
     const handleAccordionIconClick = (event) => {
@@ -780,7 +777,6 @@ const Runs = ({setIsLoading, checked, setChecked, filterSearchInput, runsConfig,
 
     return (
         <div>
-            {/*// <List dense={true} sx={{ width: '100%', bgcolor: 'background.paper' }}>*/}
             {filtered.map((value) => {
                 const labelId = `checkbox-list-label-${value}`;
 
@@ -818,7 +814,6 @@ const Runs = ({setIsLoading, checked, setChecked, filterSearchInput, runsConfig,
                     </StyledAccordion>
                 );
             })}
-            {/*</List>*/}
         </div>
     );
 }
@@ -847,9 +842,14 @@ function TagPlot({isLoading, layoutConfig, plotConfig, data, title, revision}) {
     );
 }
 
-function TagAccordion({tag, plot, expanded}) {
+function TagAccordion({tag, plot, expanded, data, setIsLoading}) {
+    const handleAccordionChange = (event, expanded) => {
+        if (expanded && isEmpty(data)){
+            setIsLoading(true);
+        }
+    }
     return (
-        <StyledAccordion defaultExpanded={expanded}>
+        <StyledAccordion defaultExpanded={expanded} onChange={handleAccordionChange}>
             <StyledAccordionSummary
                 expandIcon={<AccordionIcon />}
                 id={`Accordion-${tag}`}
@@ -953,16 +953,6 @@ const SettingsDrawer = ({generalConfig, setGeneralConfig, layoutConfig, setLayou
                             id={`Accordion-plotConfig`}
                         >
                             <Typography>Plot Settings</Typography>
-                            {/*<IconButton*/}
-                            {/*    color="inherit"*/}
-                            {/*    aria-label="open drawer"*/}
-                            {/*    edge="end"*/}
-                            {/*    onClick={() => {*/}
-                            {/*       console.log('upload json');*/}
-                            {/*    }}*/}
-                            {/*>*/}
-                            {/*    <RefreshIcon />*/}
-                            {/*</IconButton>*/}
                         </StyledAccordionSummary>
                         <AccordionDetails>
                             <PlotConfigs parent={''} attributes={configAttributes} plotConfig={plotConfig} setPlotConfig={setPlotConfig}/>
@@ -1073,17 +1063,12 @@ const RunsDrawer = ({setIsLoading, runsConfig, setRunsConfig, open, handleRunsDr
         >
             <RunsDragger onMouseDown={(e) => handleMouseDown(e)}/>
             <DrawerHeader>
-                {/*Header*/}
                 <Checkbox
                     edge="start"
                     checked={filterCheck}
                     tabIndex={-1}
                     disableRipple
-                    // defaultChecked
                     onChange={handleChange}
-                    // inputProps={{ 'aria-labelledby': labelId }}
-                    // id={value}
-                    // onChange={handleChange}
                 />
 
                 <Search sx={{ flexGrow: 1, width: '50%' }}>
@@ -1094,7 +1079,6 @@ const RunsDrawer = ({setIsLoading, runsConfig, setRunsConfig, open, handleRunsDr
                         sx={{ flexGrow: 1, width: '100%' }}
                         placeholder="Filter runs ..."
                         inputProps={{ 'aria-label': 'filter tags' }}
-                        // onChange={handleFilterChange}
                         onKeyDown={handleKeyDown}
                     >
                     </StyledInputBase>
@@ -1110,7 +1094,7 @@ const RunsDrawer = ({setIsLoading, runsConfig, setRunsConfig, open, handleRunsDr
     );
 }
 
-function TagsAccordion({isLoading, toImageConfig,layoutConfig, plotConfig, tags, data, revision, filterSearchInput}) {
+function TagsAccordion({isLoading, setIsLoading, toImageConfig,layoutConfig, plotConfig, tags, data, revision, filterSearchInput}) {
 
     let filtered = [];
     if(filterSearchInput){
@@ -1121,9 +1105,7 @@ function TagsAccordion({isLoading, toImageConfig,layoutConfig, plotConfig, tags,
     }
     const accordions = filtered.map((tag, index) => {
         const plot = <TagPlot isLoading={isLoading} layoutConfig={layoutConfig} toImageConfig={toImageConfig} plotConfig={plotConfig} title={tag} data={data[tag]} revision={revision}/> ;
-        // const plot = <div/> ;
-        const acc = <TagAccordion key={`Accordion-${tag}`} tag={tag} plot={plot}
-                                  // expanded={index === 0}
+        const acc = <TagAccordion  key={`Accordion-${tag}`} tag={tag} plot={plot} setIsLoading={setIsLoading} data={data}
         />
         return(acc);
     })
@@ -1171,7 +1153,6 @@ function Dashboard({isLoading, setIsLoading, manualLoading, setManualLoading, ge
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <TopBar position="fixed" openRuns={openRuns} openSettings={openSettings} runsDrawerWidth={runsDrawerWidth} settingsDrawerWidth={settingsDrawerWidth}
-                // sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, }}
                 sx={{ height: '50px'}}
             >
                 <Toolbar variant="dense">
@@ -1192,17 +1173,12 @@ function Dashboard({isLoading, setIsLoading, manualLoading, setManualLoading, ge
                             sx={{ flexGrow: 1, width: '100%' }}
                             placeholder="Filter Tags ..."
                             inputProps={{ 'aria-label': 'filter tags' }}
-                            // onChange={handleFilterChange}
                             onKeyDown={handleKeyDown}
                         >
 
                         </StyledInputBase>
 
                     </Search>
-
-                    {/*<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>*/}
-                    {/*    Persistent drawer*/}
-                    {/*</Typography>*/}
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -1229,7 +1205,7 @@ function Dashboard({isLoading, setIsLoading, manualLoading, setManualLoading, ge
             <RunsDrawer setIsLoading={setIsLoading} runsConfig={runsConfig} setRunsConfig={setRunsConfig} setRunsDrawerWidth={setRunsDrawerWidth} open={openRuns} handleRunsDrawerClose={handleRunsDrawerClose} runs={runs} deactivatedRuns={deactivatedRuns} setDeactivatedRuns={setDeactivatedRuns} runsDrawerWidth={runsDrawerWidth}/>
             <Main openRuns={openRuns} openSettings={openSettings} runsDrawerWidth={runsDrawerWidth} settingsDrawerWidth={settingsDrawerWidth}>
                 <DrawerHeader />
-                <TagsAccordion isLoading={isLoading} layoutConfig={layoutConfig} toImageConfig={toImageConfig} plotConfig={plotConfig} tags={tags} data={data} revision={revision} filterSearchInput={filterSearchInput}/>
+                <TagsAccordion isLoading={isLoading} setIsLoading={setIsLoading} layoutConfig={layoutConfig} toImageConfig={toImageConfig} plotConfig={plotConfig} tags={tags} data={data} revision={revision} filterSearchInput={filterSearchInput}/>
             </Main>
             <SettingsDrawer generalConfig={generalConfig} setGeneralConfig={setGeneralConfig} layoutConfig={layoutConfig} setLayoutConfig={setLayoutConfig} toImageConfig={toImageConfig} setToImageConfig={setToImageConfig} plotConfig={plotConfig} setPlotConfig={setPlotConfig} settings={settings} setSettings={setSettings} openSettings={openSettings} settingsDrawerWidth={settingsDrawerWidth} handleSettingsDrawerClose={handleSettingsDrawerClose} setSettingsDrawerWidth={setSettingsDrawerWidth}/>
         </Box>
@@ -1268,16 +1244,13 @@ function App() {
                 if(deactivatedRuns.includes(run)){
                     continue
                 }
-                // let conf = JSON.parse(JSON.stringify(runsConfig[run]))
                 let trace = {...rawData[tag][run], ...runsConfig[run]};
-                // trace.line = {color: 'red'}
                 traces.push(trace);
             }
             d[tag] = traces;
         }
         // time vs step
         if(generalConfig.horizontalAxis === 'Time'){
-            // let newLc = {...layoutConfig, xaxis: {...layoutConfig.xaxis, type: 'date', tickformat: '%M:%S', hoverformat: '%H:%M:%S %d/%m/%y'}};
             let newLc = {...layoutConfig, xaxis: {...layoutConfig.xaxis, type: 'date'}};
             setLayoutConfig(newLc);
         }
@@ -1329,8 +1302,8 @@ function App() {
 
 
     React.useEffect(()=>{
+        setIsLoading(true);
         getData(generalConfig.horizontalAxis).then((res) => {
-            setIsLoading(true);
             setRawData(res);
         })
     },[manualLoading, generalConfig.horizontalAxis])
