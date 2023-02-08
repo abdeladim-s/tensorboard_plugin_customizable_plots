@@ -130,3 +130,4 @@ dmypy.json
 
 .idea
 /tensorboard_plugin_customizable_plots/static/node_modules
+/docs
