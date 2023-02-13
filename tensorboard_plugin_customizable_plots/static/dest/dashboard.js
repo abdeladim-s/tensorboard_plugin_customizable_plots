@@ -804,12 +804,11 @@ const Runs = ({
   setIsLoading,
   checked,
   setChecked,
-  filterSearchInput,
   runsConfig,
   setRunsConfig,
-  runs,
   deactivatedRuns,
-  setDeactivatedRuns
+  setDeactivatedRuns,
+  filteredRuns
 }) => {
   const [expanded, setExpanded] = React.useState(false);
   const [clickedAccordion, setClickedAccordion] = React.useState('');
@@ -834,16 +833,7 @@ const Runs = ({
     }
     setDeactivatedRuns(d_runs);
   };
-  let filtered = [];
-  if (filterSearchInput) {
-    let pattern = new RegExp(filterSearchInput);
-    filtered = runs.filter(e => {
-      return pattern.test(e);
-    });
-  } else {
-    filtered = runs;
-  }
-  return React.createElement("div", null, filtered.map(value => {
+  return React.createElement("div", null, filteredRuns.map(value => {
     const labelId = `checkbox-list-label-${value}`;
     return React.createElement(StyledAccordion, {
       key: value,
@@ -1071,9 +1061,10 @@ const RunsDrawer = ({
   deactivatedRuns,
   setDeactivatedRuns,
   runsDrawerWidth,
-  setRunsDrawerWidth
+  setRunsDrawerWidth,
+  filteredRuns,
+  setFilteredRuns
 }) => {
-  const [filterSearchInput, setFilterSearchInput] = React.useState();
   const [checked, setChecked] = React.useState({});
   const [filterCheck, setFilterCheck] = React.useState(true);
 
@@ -1086,18 +1077,21 @@ const RunsDrawer = ({
   // TODO: remove deactivated runs and replace them with the checked object
   React.useEffect(() => {
     // filtered
-    let dr = runs.filter(run => {
+    let dr = filteredRuns.filter(run => {
       return !checked[run];
     });
     setDeactivatedRuns(dr);
-
-    // toggle check button if all are false
-    let checkedArr = Object.values(checked);
-    if (checkedArr.length > 0 && checkedArr.every(v => v === false)) {
-      setFilterCheck(false);
-    }
   }, [checked]);
   React.useEffect(() => {
+    // toggle checkbox if all are false
+    if (filteredRuns.length > 0 && filteredRuns.every(run => checked[run] === false)) {
+      setFilterCheck(false);
+    } else {
+      setFilterCheck(true);
+    }
+  }, [filteredRuns, checked]);
+  React.useEffect(() => {
+    // initialization
     let chk = {};
     for (const run of runs) {
       chk[run] = deactivatedRuns.includes(run) ? false : true;
@@ -1118,23 +1112,19 @@ const RunsDrawer = ({
       setRunsDrawerWidth(newWidth);
     }
   }, []);
-
-  // const handleKeyDown = (event) => {
-  //     if(event.keyCode == 13){ // enter
-  //         let v = event.target.value;
-  //         setFilterSearchInput(v);
-  //     }
-  // }
-
   const handleSearchChange = event => {
     let v = event.target.value;
-    setFilterSearchInput(v);
+    let pattern = new RegExp(v);
+    let filtered_runs = runs.filter(e => {
+      return pattern.test(e);
+    });
+    setFilteredRuns(filtered_runs);
   };
   const handleChange = event => {
     let newChecked = {
       ...checked
     };
-    for (let run in newChecked) {
+    for (let run of filteredRuns) {
       newChecked[run] = event.target.checked;
     }
     setChecked(newChecked);
@@ -1183,12 +1173,12 @@ const RunsDrawer = ({
     setIsLoading: setIsLoading,
     checked: checked,
     setChecked: setChecked,
-    filterSearchInput: filterSearchInput,
     runsConfig: runsConfig,
     setRunsConfig: setRunsConfig,
     runs: runs,
     deactivatedRuns: deactivatedRuns,
-    setDeactivatedRuns: setDeactivatedRuns
+    setDeactivatedRuns: setDeactivatedRuns,
+    filteredRuns: filteredRuns
   }));
 };
 function TagsAccordion({
@@ -1254,7 +1244,9 @@ function Dashboard({
   data,
   revision,
   deactivatedRuns,
-  setDeactivatedRuns
+  setDeactivatedRuns,
+  filteredRuns,
+  setFilteredRuns
 }) {
   const theme = useTheme();
   const [openRuns, setOpenRuns] = React.useState(true);
@@ -1274,14 +1266,6 @@ function Dashboard({
   const handleSettingsDrawerClose = () => {
     setOpenSettings(false);
   };
-
-  // const handleKeyDown = (event) => {
-  //     if(event.keyCode == 13){ // enter
-  //         let v = event.target.value;
-  //         setFilterSearchInput(v);
-  //     }
-  // }
-
   const handleSearchChange = event => {
     setFilterSearchInput(event.target.value);
   };
@@ -1355,7 +1339,9 @@ function Dashboard({
     runs: runs,
     deactivatedRuns: deactivatedRuns,
     setDeactivatedRuns: setDeactivatedRuns,
-    runsDrawerWidth: runsDrawerWidth
+    runsDrawerWidth: runsDrawerWidth,
+    filteredRuns: filteredRuns,
+    setFilteredRuns: setFilteredRuns
   }), React.createElement(Main, {
     openRuns: openRuns,
     openSettings: openSettings,
@@ -1402,6 +1388,7 @@ function App() {
   const [tags, setTags] = React.useState([]);
   const [runs, setRuns] = React.useState([]);
   const [deactivatedRuns, setDeactivatedRuns] = React.useState(Object.values(initDeactivatedRuns));
+  const [filteredRuns, setFilteredRuns] = React.useState([]);
   const [revision, setRevision] = React.useState(0);
   const [manualLoading, setManualLoading] = React.useState(0);
   const [generalConfig, setGeneralConfig] = React.useState(initGeneralConfig);
@@ -1413,7 +1400,7 @@ function App() {
     for (const tag in rawData) {
       let traces = [];
       for (const run in rawData[tag]) {
-        if (deactivatedRuns.includes(run)) {
+        if (deactivatedRuns.includes(run) || !filteredRuns.includes(run)) {
           continue;
         }
         let trace = {
@@ -1456,6 +1443,7 @@ function App() {
   React.useEffect(() => {
     getRuns().then(runs => {
       setRuns(runs);
+      setFilteredRuns(runs);
     });
   }, [tags]);
   React.useEffect(() => {
@@ -1489,7 +1477,7 @@ function App() {
     let processedData = processData();
     setData(processedData);
     localStorage.setItem('deactivatedRuns', JSON.stringify(deactivatedRuns));
-  }, [rawData, runsConfig, deactivatedRuns]);
+  }, [rawData, runsConfig, deactivatedRuns, filteredRuns]);
   React.useEffect(() => {
     setRevision(revision + 1);
     // save config to localStorage for reuse
@@ -1517,7 +1505,9 @@ function App() {
     data: data,
     revision: revision,
     deactivatedRuns: deactivatedRuns,
-    setDeactivatedRuns: setDeactivatedRuns
+    setDeactivatedRuns: setDeactivatedRuns,
+    filteredRuns: filteredRuns,
+    setFilteredRuns: setFilteredRuns
   });
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
