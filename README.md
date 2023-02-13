@@ -31,7 +31,6 @@ for the full list of features and options._
 ## Limitations
 
 * Not as good and stylish as the `TIME SERIES` plugin. 
-* Somehow slow  :(
 * The settings with a text field are not applied until `Enter` is pressed (I tried to implement `onChange` but it makes the plugin slower)
 
 _So until the Tensorboard authors implement the above features, 
