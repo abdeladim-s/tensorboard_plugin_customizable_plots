@@ -769,7 +769,8 @@ const Runs = ({setIsLoading, checked, setChecked, filterSearchInput, runsConfig,
 
     let filtered = [];
     if(filterSearchInput){
-        filtered = runs.filter((e) => {return e.toLowerCase().includes(filterSearchInput.toLowerCase())})
+        let pattern = new RegExp(filterSearchInput);
+        filtered = runs.filter((e) => {return pattern.test(e)})
     }
     else {
         filtered = runs;
@@ -1031,11 +1032,16 @@ const RunsDrawer = ({setIsLoading, runsConfig, setRunsConfig, open, handleRunsDr
         }
     }, []);
 
-    const handleKeyDown = (event) => {
-        if(event.keyCode == 13){ // enter
-            let v = event.target.value;
-            setFilterSearchInput(v);
-        }
+    // const handleKeyDown = (event) => {
+    //     if(event.keyCode == 13){ // enter
+    //         let v = event.target.value;
+    //         setFilterSearchInput(v);
+    //     }
+    // }
+
+    const handleSearchChange = (event) => {
+        let v = event.target.value;
+        setFilterSearchInput(v);
     }
 
     const handleChange = (event) => {
@@ -1077,9 +1083,10 @@ const RunsDrawer = ({setIsLoading, runsConfig, setRunsConfig, open, handleRunsDr
                     </SearchIconWrapper>
                     <StyledInputBase
                         sx={{ flexGrow: 1, width: '100%' }}
-                        placeholder="Filter runs ..."
+                        placeholder="Filter runs (regex) ..."
                         inputProps={{ 'aria-label': 'filter tags' }}
-                        onKeyDown={handleKeyDown}
+                        // onKeyDown={handleKeyDown}
+                        onChange={handleSearchChange}
                     >
                     </StyledInputBase>
                 </Search>
@@ -1098,7 +1105,8 @@ function TagsAccordion({isLoading, setIsLoading, toImageConfig,layoutConfig, plo
 
     let filtered = [];
     if(filterSearchInput){
-        filtered = tags.filter((e) => {return e.toLowerCase().includes(filterSearchInput.toLowerCase())})
+        let pattern = new RegExp(filterSearchInput);
+        filtered = tags.filter((e) => {return pattern.test(e)})
     }
     else {
         filtered = tags;
@@ -1142,12 +1150,17 @@ function Dashboard({isLoading, setIsLoading, manualLoading, setManualLoading, ge
         setOpenSettings(false);
     };
 
-    const handleKeyDown = (event) => {
-        if(event.keyCode == 13){ // enter
-            let v = event.target.value;
-            setFilterSearchInput(v);
-        }
+    // const handleKeyDown = (event) => {
+    //     if(event.keyCode == 13){ // enter
+    //         let v = event.target.value;
+    //         setFilterSearchInput(v);
+    //     }
+    // }
+
+    const handleSearchChange = (event) => {
+        setFilterSearchInput(event.target.value);
     }
+
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -1171,9 +1184,10 @@ function Dashboard({isLoading, setIsLoading, manualLoading, setManualLoading, ge
                         </SearchIconWrapper>
                         <StyledInputBase
                             sx={{ flexGrow: 1, width: '100%' }}
-                            placeholder="Filter Tags ..."
+                            placeholder="Filter tags (regex) ..."
                             inputProps={{ 'aria-label': 'filter tags' }}
-                            onKeyDown={handleKeyDown}
+                            // onKeyDown={handleKeyDown}
+                            onChange={handleSearchChange}
                         >
 
                         </StyledInputBase>

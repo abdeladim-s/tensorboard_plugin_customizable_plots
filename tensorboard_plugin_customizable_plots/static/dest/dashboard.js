@@ -836,8 +836,9 @@ const Runs = ({
   };
   let filtered = [];
   if (filterSearchInput) {
+    let pattern = new RegExp(filterSearchInput);
     filtered = runs.filter(e => {
-      return e.toLowerCase().includes(filterSearchInput.toLowerCase());
+      return pattern.test(e);
     });
   } else {
     filtered = runs;
@@ -1117,12 +1118,17 @@ const RunsDrawer = ({
       setRunsDrawerWidth(newWidth);
     }
   }, []);
-  const handleKeyDown = event => {
-    if (event.keyCode == 13) {
-      // enter
-      let v = event.target.value;
-      setFilterSearchInput(v);
-    }
+
+  // const handleKeyDown = (event) => {
+  //     if(event.keyCode == 13){ // enter
+  //         let v = event.target.value;
+  //         setFilterSearchInput(v);
+  //     }
+  // }
+
+  const handleSearchChange = event => {
+    let v = event.target.value;
+    setFilterSearchInput(v);
   };
   const handleChange = event => {
     let newChecked = {
@@ -1164,11 +1170,13 @@ const RunsDrawer = ({
       flexGrow: 1,
       width: '100%'
     },
-    placeholder: "Filter runs ...",
+    placeholder: "Filter runs (regex) ...",
     inputProps: {
       'aria-label': 'filter tags'
-    },
-    onKeyDown: handleKeyDown
+    }
+    // onKeyDown={handleKeyDown}
+    ,
+    onChange: handleSearchChange
   })), React.createElement(IconButton, {
     onClick: handleRunsDrawerClose
   }, React.createElement(ChevronLeftIcon, null))), React.createElement(Divider, null), React.createElement(Runs, {
@@ -1196,8 +1204,9 @@ function TagsAccordion({
 }) {
   let filtered = [];
   if (filterSearchInput) {
+    let pattern = new RegExp(filterSearchInput);
     filtered = tags.filter(e => {
-      return e.toLowerCase().includes(filterSearchInput.toLowerCase());
+      return pattern.test(e);
     });
   } else {
     filtered = tags;
@@ -1265,12 +1274,16 @@ function Dashboard({
   const handleSettingsDrawerClose = () => {
     setOpenSettings(false);
   };
-  const handleKeyDown = event => {
-    if (event.keyCode == 13) {
-      // enter
-      let v = event.target.value;
-      setFilterSearchInput(v);
-    }
+
+  // const handleKeyDown = (event) => {
+  //     if(event.keyCode == 13){ // enter
+  //         let v = event.target.value;
+  //         setFilterSearchInput(v);
+  //     }
+  // }
+
+  const handleSearchChange = event => {
+    setFilterSearchInput(event.target.value);
   };
   return React.createElement(Box, {
     sx: {
@@ -1308,11 +1321,13 @@ function Dashboard({
       flexGrow: 1,
       width: '100%'
     },
-    placeholder: "Filter Tags ...",
+    placeholder: "Filter tags (regex) ...",
     inputProps: {
       'aria-label': 'filter tags'
-    },
-    onKeyDown: handleKeyDown
+    }
+    // onKeyDown={handleKeyDown}
+    ,
+    onChange: handleSearchChange
   })), React.createElement(IconButton, {
     color: "inherit",
     "aria-label": "open drawer",
