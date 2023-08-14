@@ -23,7 +23,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="tensorboard_plugin_customizable_plots",
-    version="1.1.1",
+    version="1.1.2",
     description="A plugin for TensorBoard to customize and export Scalar plots",
     # packages=["tensorboard_plugin_customizable_plots"],
     long_description=long_description,
